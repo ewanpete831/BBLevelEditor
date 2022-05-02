@@ -13,7 +13,7 @@ namespace BBLevelEditor
 {
     public partial class Form1 : Form
     {
-
+       
         public Form1()
         {
             InitializeComponent();
@@ -21,15 +21,28 @@ namespace BBLevelEditor
 
         private void buildButton_Click(object sender, EventArgs e)
         {
-
+            XmlWriter writer = XmlWriter.Create("Resources/level.xml", null);
+            writer.WriteStartElement("Bricks");
             foreach (Control c in panel1.Controls)
             {
                 if (c is Button)
                 {
-                   
+                    string x = Convert.ToString(c.Location.X);
+                    string y = Convert.ToString(c.Location.Y);
+                    string hp = c.Text;
+                    string colour = Convert.ToString(c.BackColor);
+
+                    writer.WriteStartElement("Brick");
+                    writer.WriteElementString("x", x);
+                    writer.WriteElementString("y", y);
+                    writer.WriteElementString("hp", hp);
+                    writer.WriteElementString("colour", colour);
+
+                    writer.WriteEndElement();
                 }
             }
-      
+            writer.WriteEndElement();
+            writer.Close();
         }
     }
 }
